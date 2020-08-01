@@ -8,8 +8,8 @@
 //  } from "../ActionTypes";
 
 const initialState = {
-    timer1RemaindingTime: 1800,
-    timer2RemaindingTime: 900,
+    timer1RemaindingTime: 180000,
+    timer2RemaindingTime: 90000,
 };
 
 const timerReducer = (state = initialState, action) => {

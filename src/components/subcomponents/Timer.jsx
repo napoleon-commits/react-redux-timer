@@ -1,27 +1,20 @@
 import React from 'react';
-
 import { connect } from 'react-redux'
 
 class Timer extends React.Component {
     render() {
         return (
-            <>Timer{this.props.id} {this.props[this.props.timerId]}</>
+            <>{this.props.id}-----{this.props.remaindingTime}</>
         )
     }
 }
 
-const mapStateToProps = (state /*, ownProps*/) => {
-    console.log('mapStateToProps')
-    console.log(state)
-    console.log('mapStateToProps');
+const mapStateToProps = (state, ownProps) => {
     const { timer1RemaindingTime, timer2RemaindingTime } = state.Timer;
     return {
-        timer1: timer1RemaindingTime,
-        timer2: timer2RemaindingTime,
+        remaindingTime: (ownProps.id === "timer1" ? timer1RemaindingTime : timer2RemaindingTime)
     }
 }
-
-// const mapDispatchToProps = { increment, decrement, reset }
 
 export default connect(
     mapStateToProps,
