@@ -19,14 +19,16 @@ class LiveBoard extends React.Component {
         this.stopTimer1 = this.stopTimer1.bind(this);
         this.startTimer2 = this.startTimer2.bind(this);
         this.stopTimer2 = this.stopTimer2.bind(this);
+        this.incrementTimer1 = this.incrementTimer1.bind(this);
+        this.incrementTimer2 = this.incrementTimer2.bind(this);
     }
     componentDidMount(){
         setInterval(()=>{
             if(this.state.startTimer1bool){
-                this.props.startTimer1();
+                this.props.dispatch({ type: START_TIMER_1 },)
             }
             if(this.state.startTimer2bool){
-                this.props.startTimer2();
+                this.props.dispatch({ type: START_TIMER_2 })
             }
         }, 10);
     }
@@ -50,18 +52,24 @@ class LiveBoard extends React.Component {
             startTimer2bool: false,
         })
     }
+    incrementTimer1(){
+        this.props.dispatch({ type: INCREMENT_TIMER_1, payload: {centiSeconds: 1000} })
+    }
+    incrementTimer2(){
+        this.props.dispatch({ type: INCREMENT_TIMER_2, payload: {centiSeconds: 1000} })
+    }
     render() {
         return (
             <>
                 <div>
                     <button onClick={this.startTimer1}>Start Timer 1</button>
                     <button onClick={this.stopTimer1}>Stop Timer 1</button>
-                    <button>Increment Timer 1</button>
+                    <button onClick={this.incrementTimer1}>Increment Timer 1</button>
                 </div>
                 <div>
                     <button onClick={this.startTimer2}>Start Timer 2</button>
                     <button onClick={this.stopTimer2}>Stop Timer 2</button>
-                    <button>Increment Timer 2</button>
+                    <button onClick={this.incrementTimer2}>Increment Timer 2</button>
                 </div>
             </>
         );
@@ -70,11 +78,7 @@ class LiveBoard extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // dispatching plain actions
-        incrementTimer1: () => dispatch({ type: INCREMENT_TIMER_1 }),
-        startTimer1: () => dispatch({ type: START_TIMER_1 }),
-        incrementTimer2: () => dispatch({ type: INCREMENT_TIMER_2 }),
-        startTimer2: () => dispatch({ type: START_TIMER_2 }),
+        dispatch,
     }
 }
 export default connect(
