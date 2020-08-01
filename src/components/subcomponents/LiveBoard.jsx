@@ -1,5 +1,14 @@
 import React from "react";
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+
+import {
+    START_TIMER_1,
+    START_TIMER_2,
+    STOP_TIMER_1,
+    STOP_TIMER_2,
+    INCREMENT_TIMER_1,
+    INCREMENT_TIMER_2
+} from "../../redux/ActionTypes";
 
 class LiveBoard extends React.Component {
     constructor(props){
@@ -7,9 +16,7 @@ class LiveBoard extends React.Component {
         this.startTimer1 = this.startTimer1.bind(this);
     }
     startTimer1(){
-        console.log('this.props');
-        console.log(this.props);
-        console.log('this.props');
+        this.props.startTimer1();
     }
     render() {
         return (
@@ -29,12 +36,15 @@ class LiveBoard extends React.Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         // dispatching plain actions
-        increment: () => dispatch({ type: 'INCREMENT' }),
-        decrement: () => dispatch({ type: 'DECREMENT' }),
-        stop: () => dispatch({ type: 'STOP' })
+        incrementTimer1: () => dispatch({ type: INCREMENT_TIMER_1 }),
+        startTimer1: () => dispatch({ type: START_TIMER_1 }),
+        stopTimer1: () => dispatch({ type: STOP_TIMER_1 }),
+        incrementTimer2: () => dispatch({ type: INCREMENT_TIMER_2 }),
+        startTimer2: () => dispatch({ type: START_TIMER_2 }),
+        stopTimer2: () => dispatch({ type: STOP_TIMER_2 })
     }
 }
 export default connect(
