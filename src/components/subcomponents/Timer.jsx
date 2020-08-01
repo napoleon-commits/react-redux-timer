@@ -3,27 +3,51 @@ import { connect } from 'react-redux'
 
 class Timer extends React.Component {
     render() {
+        const { remainingTime } = this.props;
+        const hours = Math.floor(remainingTime / 360000);
+        const minutes = Math.floor(
+            (
+                remainingTime
+                - (hours * 360000)
+            ) / 6000
+        );
+        const seconds = Math.floor(
+            (
+                remainingTime
+                - (hours * 360000)
+                - (minutes * 6000)
+            ) / 100
+        )
+        const remainder = (
+            remainingTime
+            - (hours * 360000)
+            - (minutes * 6000)
+            - (seconds * 100)
+        );
         return (
             <>
                 {
                     this.props.remainingTime >= 360000
                         ? (
                             <>
-                                {String(Math.floor(this.props.remainingTime / 360000)).padStart(2, '0')}:
-                                {String(Math.floor(this.props.remainingTime / 6000)).padStart(2, '0')}
+                                {String(hours).padStart(2, '0')}:
+                                {String(minutes).padStart(2, '0')}.
+                                {String(seconds).padStart(2, '0')}
                             </>
                         )
                         : this.props.remainingTime >= 6000
                             ? (
                                 <>
-                                    {String(Math.floor(this.props.remainingTime / 6000)).padStart(2, '0')}:
-                                    {String(Math.floor(((this.props.remainingTime / 6000) - (Math.floor(this.props.remainingTime / 6000))) * 60)).padStart(2, '0')}
+                                    {String(hours).padStart(2, '0')}:
+                                    {String(minutes).padStart(2, '0')}.
+                                    {String(seconds).padStart(2, '0')}
                                 </>
                             )
                             : (
                                 <>
-                                    {Math.floor(this.props.remainingTime / 100)}.
-                                    {(this.props.remainingTime) - (Math.floor(this.props.remainingTime / 100) * 100)}
+                                    {String(minutes).padStart(2, '0')}:
+                                    {String(seconds).padStart(2, '0')}.
+                                    {String(remainder).padStart(2, '0')}
                                 </>
                             )
                 }

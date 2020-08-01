@@ -25,9 +25,19 @@ class LiveBoard extends React.Component {
         this.incrementTimer2 = this.incrementTimer2.bind(this);
     }
     componentDidMount(){
-        this.props.dispatch({type: SET_TIMER_1, payload: {remainingTime: 180000}})
-        this.props.dispatch({type: SET_TIMER_2, payload: {remainingTime: 180000}})
+        this.props.dispatch({type: SET_TIMER_1, payload: {remainingTime: 360000}});
+        this.props.dispatch({type: SET_TIMER_2, payload: {remainingTime: 360000}});
         setInterval(()=>{
+            if(this.props.timer1RemainingTime < 0){
+                this.setState({
+                    startTimer1bool: false,
+                });
+            }
+            if(this.props.timer2RemainingTime < 0){
+                this.setState({
+                    startTimer2bool: false,
+                });
+            }
             if(this.state.startTimer1bool){
                 this.props.dispatch({ type: START_TIMER_1 },)
             }
@@ -84,8 +94,17 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatch,
     }
+};
+
+const mapStateToProps = (state, /* ownProps */) => {
+    const { timer1RemainingTime, timer2RemainingTime } = state.Timer;
+    return {
+        timer1RemainingTime,
+        timer2RemainingTime
+    }
 }
+
 export default connect(
-    ()=>({}),
+    mapStateToProps,
     mapDispatchToProps
 )(LiveBoard);
