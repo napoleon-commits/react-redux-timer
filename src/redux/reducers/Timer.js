@@ -1,17 +1,11 @@
 import { 
     START_TIMER_1,
-    // START_TIMER_2,
-    // STOP_TIMER_1,
-    // STOP_TIMER_2,
-    // INCREMENT_TIMER_1,
-    // INCREMENT_TIMER_2
+    START_TIMER_2,
  } from "../ActionTypes";
 
 const initialState = {
     timer1RemaindingTime: 180000,
     timer2RemaindingTime: 90000,
-    startTimer1: false,
-    startTimer2: false,
 };
 
 const timerReducer = (state = initialState, action) => {
@@ -22,6 +16,12 @@ const timerReducer = (state = initialState, action) => {
               timer1RemaindingTime: (state.timer1RemaindingTime -= 1)
           }
         }
+        case START_TIMER_2: {
+            return {
+                ...state,
+                timer2RemaindingTime: (state.timer2RemaindingTime -= 1)
+            }
+          }
         default: {
             return state;
         }
