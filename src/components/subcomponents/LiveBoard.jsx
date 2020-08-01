@@ -6,6 +6,8 @@ import {
     START_TIMER_2,
     INCREMENT_TIMER_1,
     INCREMENT_TIMER_2,
+    SET_TIMER_1,
+    SET_TIMER_2
 } from "../../redux/ActionTypes";
 
 class LiveBoard extends React.Component {
@@ -23,6 +25,8 @@ class LiveBoard extends React.Component {
         this.incrementTimer2 = this.incrementTimer2.bind(this);
     }
     componentDidMount(){
+        this.props.dispatch({type: SET_TIMER_1, payload: {remainingTime: 180000}})
+        this.props.dispatch({type: SET_TIMER_2, payload: {remainingTime: 180000}})
         setInterval(()=>{
             if(this.state.startTimer1bool){
                 this.props.dispatch({ type: START_TIMER_1 },)
