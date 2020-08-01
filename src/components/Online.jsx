@@ -5,9 +5,9 @@ import Timer from './subcomponents/Timer'
 
 const Online = () => (
     <>
-        <Timer id="1" />
+        <Timer id={1} timerId="timer1" />
         <LiveBoard />
-        <Timer id="2" />
+        <Timer id={2} timerId="timer2" />
     </>
 );
 

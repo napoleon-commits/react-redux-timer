@@ -4,9 +4,14 @@ import './index.css';
 import Online from './components/Online';
 import * as serviceWorker from './serviceWorker';
 
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
 ReactDOM.render(
   <React.StrictMode>
-    <Online />
+    <Provider store={store}>
+      <Online />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
