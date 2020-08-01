@@ -57,10 +57,10 @@ class LiveBoard extends React.Component {
         })
     }
     incrementTimer1(){
-        this.props.dispatch({ type: INCREMENT_TIMER_1, payload: {centiSeconds: 1000} })
+        this.props.dispatch({ type: INCREMENT_TIMER_1, payload: {centiSeconds: 100} })
     }
     incrementTimer2(){
-        this.props.dispatch({ type: INCREMENT_TIMER_2, payload: {centiSeconds: 1000} })
+        this.props.dispatch({ type: INCREMENT_TIMER_2, payload: {centiSeconds: 100} })
     }
     render() {
         return (

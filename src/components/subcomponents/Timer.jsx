@@ -4,7 +4,30 @@ import { connect } from 'react-redux'
 class Timer extends React.Component {
     render() {
         return (
-            <>{this.props.id}-----{this.props.remainingTime}</>
+            <>
+                {
+                    this.props.remainingTime >= 360000
+                        ? (
+                            <>
+                                {String(Math.floor(this.props.remainingTime / 360000)).padStart(2, '0')}:
+                                {String(Math.floor(this.props.remainingTime / 6000)).padStart(2, '0')}
+                            </>
+                        )
+                        : this.props.remainingTime >= 6000
+                            ? (
+                                <>
+                                    {String(Math.floor(this.props.remainingTime / 6000)).padStart(2, '0')}:
+                                    {String(Math.floor(((this.props.remainingTime / 6000) - (Math.floor(this.props.remainingTime / 6000))) * 60)).padStart(2, '0')}
+                                </>
+                            )
+                            : (
+                                <>
+                                    {Math.floor(this.props.remainingTime / 100)}.
+                                    {(this.props.remainingTime) - (Math.floor(this.props.remainingTime / 100) * 100)}
+                                </>
+                            )
+                }
+            </>
         )
     }
 }
