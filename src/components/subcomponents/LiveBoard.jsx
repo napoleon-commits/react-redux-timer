@@ -7,7 +7,10 @@ import {
     INCREMENT_TIMER_1,
     INCREMENT_TIMER_2,
     SET_TIMER_1,
-    SET_TIMER_2
+    SET_TIMER_2,
+    SET_TIMER1_STATUS,
+    SET_TIMER2_STATUS,
+    SET_INACTIVE_TIME_STAMP
 } from "../../redux/ActionTypes";
 
 class LiveBoard extends React.Component {
@@ -25,8 +28,48 @@ class LiveBoard extends React.Component {
         this.incrementTimer2 = this.incrementTimer2.bind(this);
     }
     componentDidMount(){
-        this.props.dispatch({type: SET_TIMER_1, payload: {remainingTime: 360000}});
-        this.props.dispatch({type: SET_TIMER_2, payload: {remainingTime: 360000}});
+        window.onblur = () => {
+            this.props.dispatch({
+                type: SET_INACTIVE_TIME_STAMP,
+                payload: {
+                    inactiveTimeStamp: new Date().getTime(),
+                }
+            })
+        };
+        window.onfocus = () => {
+            if(this.props.isTimer1Running){
+                this.props.dispatch({
+                    type: SET_TIMER_1,
+                    payload: {
+                        timer1RemainingTime: (
+                            this.props.timer1RemainingTime - (
+                                Math.floor((
+                                    new Date().getTime()
+                                    - this.props.inactiveTimeStamp
+                                )/10)
+                            )
+                        )
+                    },
+                });
+            }
+            if(this.props.isTimer2Running){
+                this.props.dispatch({
+                    type: SET_TIMER_2,
+                    payload: {
+                        timer2RemainingTime: (
+                            this.props.timer2RemainingTime - (
+                                Math.floor((
+                                    new Date().getTime()
+                                    - this.props.inactiveTimeStamp
+                                )/10)
+                            )
+                        )
+                    },
+                });
+            }
+        };
+        this.props.dispatch({type: SET_TIMER_1, payload: {timer1RemainingTime: 360000}});
+        this.props.dispatch({type: SET_TIMER_2, payload: {timer2RemainingTime: 360000}});
         setInterval(()=>{
             if(this.props.timer1RemainingTime < 0){
                 this.setState({
@@ -39,10 +82,36 @@ class LiveBoard extends React.Component {
                 });
             }
             if(this.state.startTimer1bool){
-                this.props.dispatch({ type: START_TIMER_1 },)
+                this.props.dispatch({ type: START_TIMER_1 },);
+                this.props.dispatch({
+                    type: SET_TIMER1_STATUS,
+                    payload: {
+                        isTimer1Running: true,
+                    }
+                });
+            } else {
+                this.props.dispatch({
+                    type: SET_TIMER1_STATUS,
+                    payload: {
+                        isTimer1Running: false,
+                    }
+                });
             }
             if(this.state.startTimer2bool){
-                this.props.dispatch({ type: START_TIMER_2 })
+                this.props.dispatch({ type: START_TIMER_2 });
+                this.props.dispatch({
+                    type: SET_TIMER2_STATUS,
+                    payload: {
+                        isTimer2Running: true,
+                    }
+                });
+            } else {
+                this.props.dispatch({
+                    type: SET_TIMER2_STATUS,
+                    payload: {
+                        isTimer2Running: false,
+                    }
+                });
             }
         }, 10);
     }
@@ -97,10 +166,13 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state, /* ownProps */) => {
-    const { timer1RemainingTime, timer2RemainingTime } = state.Timer;
+    const { timer1RemainingTime, timer2RemainingTime, isTimer1Running, isTimer2Running, inactiveTimeStamp } = state.Timer;
     return {
         timer1RemainingTime,
-        timer2RemainingTime
+        timer2RemainingTime,
+        isTimer1Running,
+        isTimer2Running,
+        inactiveTimeStamp
     }
 }
 
